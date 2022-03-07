@@ -7,7 +7,7 @@ class Main {
       WarunkiBiezaceWyswietl warunkiBiezaceWyswietl=new WarunkiBiezaceWyswietl(danePogodowe);
       PrognozaWyswietl prognozaWyswietl=new PrognozaWyswietl(danePogodowe);
 
-   //   danePogodowe.skasujObserwatora(warunkiBiezaceWyswietl);
+   //  danePogodowe.skasujObserwatora(warunkiBiezaceWyswietl);
 
       danePogodowe.ustawOdczyty(26.6f,65,1013.1f);
       danePogodowe.ustawOdczyty(27.7f,70,997.0f);
