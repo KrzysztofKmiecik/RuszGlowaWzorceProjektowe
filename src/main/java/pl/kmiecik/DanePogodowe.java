@@ -1,55 +1,21 @@
 package pl.kmiecik;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.Observable;
 
-class DanePogodowe implements Podmiot {
+class DanePogodowe extends Observable {
 
-    List<Observer> obserwatorzy;
+
     private float temperatura;
     private float wilgotnosc;
     private float cisnienie;
 
     public DanePogodowe() {
-        this.obserwatorzy = new ArrayList<>();
-    }
-
-    @Override
-    public void zarejestrujObserwatora(Observer observer) {
-        obserwatorzy.add(observer);
-    }
-
-    @Override
-    public void skasujObserwatora(Observer observer) {
-
-      /*  int index = obserwatorzy.indexOf(observer);
-        if (index >= 0) {
-            obserwatorzy.remove(observer);
-        }*/
-
-        Boolean aBoolean = Optional.of(obserwatorzy.remove(observer)).orElseGet(() -> false);
-        System.out.println(aBoolean);
-    }
-
-    @Override
-    public void powiadomObserwatorow() {
-
-      /*  for (int i = 0; i < obserwatorzy.size() ; i++) {
-            Observer observer = obserwatorzy.get(i);
-            observer.aktualizacja(this.temperatura,this.wilgotnosc,this.cisnienie);
-        }*/
-
-       /* for(Observer observer:obserwatorzy){
-            observer.aktualizacja(this.temperatura,this.wilgotnosc,this.cisnienie);
-        }*/
-
-        obserwatorzy.forEach(observer -> observer.aktualizacja(this.temperatura, this.wilgotnosc, this.cisnienie));
 
     }
 
     public void odczytyZmiana() {
-        powiadomObserwatorow();
+        setChanged();
+        notifyObservers();
     }
 
 
@@ -58,5 +24,13 @@ class DanePogodowe implements Podmiot {
         this.wilgotnosc = wilgotnosc;
         this.cisnienie = cisnienie;
         odczytyZmiana();
+    }
+
+    public float podajTemperature() {
+        return temperatura;
+    }
+
+    public float podakWilgotnosc() {
+        return wilgotnosc;
     }
 }

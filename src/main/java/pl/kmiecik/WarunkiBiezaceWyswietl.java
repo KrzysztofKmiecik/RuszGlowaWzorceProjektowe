@@ -1,26 +1,33 @@
 package pl.kmiecik;
 
-class WarunkiBiezaceWyswietl implements Observer,WyswietlElement{
+import java.util.Observable;
+import java.util.Observer;
 
-  private float temperatura;
-  private float wilgotnosc;
-  private Podmiot podmiot;
+class WarunkiBiezaceWyswietl implements Observer, WyswietlElement {
 
-    public WarunkiBiezaceWyswietl(Podmiot podmiot) {
-        this.podmiot = podmiot;
-        podmiot.zarejestrujObserwatora(this);
+    private float temperatura;
+    private float wilgotnosc;
+    private Observable observable;
+
+    public WarunkiBiezaceWyswietl(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
     }
 
-    @Override
-    public void aktualizacja(float temp, float wilgotnosc, float cisnienie) {
-        this.temperatura=temp;
-        this.wilgotnosc=wilgotnosc;
-        wyswietl();
-    }
 
     @Override
     public void wyswietl() {
-        System.out.println("warunki biezace " + temperatura + " stopni C oraz "+wilgotnosc+ "% wilgotnosci");
+        System.out.println("warunki biezace " + temperatura + " stopni C oraz " + wilgotnosc + "% wilgotnosci");
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof DanePogodowe) {
+            DanePogodowe danePogodowe = (DanePogodowe) o;
+            this.temperatura = danePogodowe.podajTemperature();
+            this.wilgotnosc = danePogodowe.podakWilgotnosc();
+            wyswietl();
+        }
     }
 }

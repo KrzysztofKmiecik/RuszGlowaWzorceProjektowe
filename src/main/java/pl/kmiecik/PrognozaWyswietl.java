@@ -1,26 +1,32 @@
 package pl.kmiecik;
 
-class PrognozaWyswietl implements Observer,WyswietlElement{
+import java.util.Observable;
+import java.util.Observer;
 
-  private float temperatura;
-  private float wilgotnosc;
-  private Podmiot podmiot;
+class PrognozaWyswietl implements Observer, WyswietlElement {
 
-    public PrognozaWyswietl(Podmiot podmiot) {
-        this.podmiot = podmiot;
-        podmiot.zarejestrujObserwatora(this);
+    private float temperatura;
+    private float wilgotnosc;
+    private Observable observable;
+
+    public PrognozaWyswietl(Observable observable) {
+        this.observable = observable;
+        observable.addObserver(this);
     }
 
-    @Override
-    public void aktualizacja(float temp, float wilgotnosc, float cisnienie) {
-        this.temperatura=temp+10;
-        this.wilgotnosc=wilgotnosc+10;
-        wyswietl();
-    }
 
     @Override
     public void wyswietl() {
-        System.out.println("PROGNOZA " + temperatura + " stopni C oraz "+wilgotnosc+ "% wilgotnosci");
+        System.out.println("PROGNOZA " + temperatura + " stopni C oraz " + wilgotnosc + "% wilgotnosci");
 
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof DanePogodowe) {
+            DanePogodowe danePogodowe = (DanePogodowe) o;
+            this.temperatura = danePogodowe.podajTemperature();
+            this.wilgotnosc = danePogodowe.podakWilgotnosc();
+        }
     }
 }
