@@ -1,16 +1,26 @@
-import javax.print.attribute.standard.MediaSize;
-
 class Main {
     public static void main(String[] args) {
-      /*  Napoj mojeExpresso=new Expresso();
-        mojeExpresso=new Czekolada(mojeExpresso);
-        mojeExpresso=new BitaSmietana(mojeExpresso);*/
+        Pizza pizza;
+        pizza = zamowPizza("grecka");
+        System.out.println(pizza.getOpis());
 
-        Napoj mojeExpresso=new BitaSmietana(new Czekolada(new Expresso()));
-
-        String opis = mojeExpresso.getOpis();
-        double koszt = mojeExpresso.koszt();
-        System.out.println("opis " + opis + "  koszt: " + koszt);
+        pizza = zamowPizza("serowa");
+        System.out.println(pizza.getOpis());
 
     }
+
+    static Pizza zamowPizza(String type) {
+        Pizza pizza;
+
+        pizza = PizzaFactory.createPizza(type);
+
+        pizza.przygotowanie();
+        pizza.pieczenie();
+        pizza.krojenie();
+        pizza.pakowanie();
+        return pizza;
+
+    }
+
+
 }
